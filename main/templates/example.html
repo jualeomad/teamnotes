@@ -1,1 +1,36 @@
-<h1>Hola mundo</h1>
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
+<body>
+
+    <div class="container">
+        <div class="row flex-row">
+            {% for note in all_notes %}
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card text-white bg-primary mb-3 h-100" style="max-width: 18rem;">
+                        <div class="card-header">{{ note.autor }} - {{ note.creation_date|date:"j F Y" }}</div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ note.title }}</h5>
+                            <p class="card-text">{{ note.content }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+  {% block content %}
+  {% endblock %}
+</div>
+</body>
+</html>
