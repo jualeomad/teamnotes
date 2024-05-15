@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Cargar variables de entorno desde el archivo .env
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -84,7 +88,7 @@ DATABASES = {
 }
 
 COUCHDB_DATABASE_NAME = 'teamnotesdb'
-COUCHDB_SERVER_URL = 'http://admin:4dm1n@localhost:5984'
+COUCHDB_SERVER_URL = f'http://{os.getenv('COUCHDB_USER')}:{os.getenv('COUCHDB_PASSWORD')}@localhost:5984'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
