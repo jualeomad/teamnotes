@@ -83,6 +83,8 @@ DATABASES = {
     }
 }
 
+COUCHDB_DATABASE_NAME = 'teamnotesdb'
+COUCHDB_SERVER_URL = 'http://admin:4dm1n@localhost:5984'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -106,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'es-es'
+LANGUAGE_CODE = 'en-US'
 
 TIME_ZONE = 'Europe/Madrid'
 
