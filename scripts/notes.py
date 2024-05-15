@@ -6,4 +6,4 @@ class Note(Document):
     title = TextField()
     content = TextField()
     creation_date = DateTimeField(default=datetime.now)
-    autor = TextField()
+    author = TextField()

@@ -15,15 +15,19 @@ def convert_creation_date_to_date(note):
 
 
 def get_all_notes():
+    
     server = Server(COUCHDB_SERVER_URL)
 
     db = server[COUCHDB_DATABASE_NAME]
 
     mango_query = {
-            "selector": {}
+            "selector": {},
+            "limit": 100
         }
     
     notes = list(db.find(mango_query))
+    
+    print(len(notes))
     
     return [convert_creation_date_to_date(note) for note in notes]
 
