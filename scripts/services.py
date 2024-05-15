@@ -13,6 +13,7 @@ def convert_creation_date_to_date(note):
 
 def get_all_notes():
     server = Server(COUCHDB_SERVER_URL)
+    create_database_if_not_exists(server, COUCHDB_DATABASE_NAME)
     db = server[COUCHDB_DATABASE_NAME]
 
     mango_query = {

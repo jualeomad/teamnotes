@@ -2,10 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseBadRequest
 from scripts.services import create_note, get_all_notes
 
-def example(request):
+def dashboard(request):
     all_notes = get_all_notes()
-    print(all_notes)
-    return render(request, 'example.html', {"all_notes": all_notes})
+    return render(request, 'dashboard.html', {"all_notes": all_notes})
 
 def create_note_view(request):
     if request.method == 'POST':
@@ -15,7 +14,7 @@ def create_note_view(request):
         
         if title and content and author:
             create_note(title, content, author)
-            return redirect('main:example')
+            return redirect('main:dashboard')
         else:
             return HttpResponseBadRequest("Invalid form data")
     
