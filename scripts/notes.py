@@ -1,6 +1,5 @@
 from datetime import datetime
-from couchdb.mapping import Document, TextField, IntegerField, DateTimeField
-
+from couchdb.mapping import Document, TextField, DateTimeField
 
 class Note(Document):
     title = TextField()
