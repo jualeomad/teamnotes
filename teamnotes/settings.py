@@ -88,7 +88,7 @@ DATABASES = {
 }
 
 COUCHDB_DATABASE_NAME = 'teamnotesdb'
-COUCHDB_SERVER_URL = f'http://{os.getenv('COUCHDB_USER')}:{os.getenv('COUCHDB_PASSWORD')}@localhost:5984'
+COUCHDB_SERVER_URL = 'http://' + os.getenv('COUCHDB_USER') + ':' + os.getenv('COUCHDB_PASSWORD') + '@localhost:5984'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
