@@ -6,15 +6,16 @@ from scripts.services import create_note, get_all_notes
 from scripts.services import get_all_notes
 
 # Create your views here.
-def example(request):
-    
-    all_notes = get_all_notes()    
-    
-    return render(request, 'example.html', {"all_notes": all_notes})
 
 def dashboard(request):
-    all_notes = get_all_notes()
-    return render(request, 'dashboard.html', {"all_notes": all_notes})
+    
+    page = int(request.GET.get('page', 1))
+    
+    all_notes, is_last_page = get_all_notes(page=page)
+    
+    is_first_page = page == 1
+    
+    return render(request, 'dashboard.html', {"all_notes": all_notes, "is_first_page": is_first_page, "is_last_page": is_last_page, "current_page": page})
 
 def create_note_view(request):
     if request.method == 'POST':

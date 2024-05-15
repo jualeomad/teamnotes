@@ -20,7 +20,7 @@ db = server[COUCHDB_DATABASE_NAME]
 
 populate_file = 'MOCK_DATA.json'
 
-with open(populate_file, 'r') as file:
+with open(populate_file, 'r', encoding="utf-8") as file:
     # Load JSON data from the file
     json_data = json.load(file)
     for note in json_data:
