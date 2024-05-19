@@ -1,12 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseBadRequest
 from scripts.services import create_note, get_all_notes
+from django.contrib.auth.decorators import login_required
 
-
-from scripts.services import get_all_notes
-
-# Create your views here.
-
+@login_required
 def dashboard(request):
     
     page = int(request.GET.get('page', 1))
@@ -17,6 +14,7 @@ def dashboard(request):
     
     return render(request, 'dashboard.html', {"all_notes": all_notes, "is_first_page": is_first_page, "is_last_page": is_last_page, "current_page": page})
 
+@login_required
 def create_note_view(request):
     if request.method == 'POST':
         title = request.POST.get('title')

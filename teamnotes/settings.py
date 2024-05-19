@@ -32,6 +32,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'accounts.CustomUser'
+LOGIN_REDIRECT_URL = '/notes/dashboard'
+LOGOUT_REDIRECT_URL = 'login'
 
 # Application definition
 
@@ -43,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap5',
-    'main.apps.MainConfig'
+    'main.apps.MainConfig',
+    'accounts',
 ]
 
 MIDDLEWARE = [
