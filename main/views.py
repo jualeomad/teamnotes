@@ -9,13 +9,15 @@ from scripts.services import get_all_notes
 
 def dashboard(request):
     
+    user = request.user
+    
     page = int(request.GET.get('page', 1))
     
     all_notes, is_last_page = get_all_notes(page=page)
     
     is_first_page = page == 1
     
-    return render(request, 'dashboard.html', {"all_notes": all_notes, "is_first_page": is_first_page, "is_last_page": is_last_page, "current_page": page})
+    return render(request, 'dashboard.html', {"all_notes": all_notes, "is_first_page": is_first_page, "is_last_page": is_last_page, "current_page": page, "user": user})
 
 def create_note_view(request):
     if request.method == 'POST':

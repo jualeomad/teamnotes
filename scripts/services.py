@@ -1,8 +1,32 @@
+import json
 from couchdb.client import Server
 from couchdb.http import ResourceNotFound
 from datetime import datetime
+
+import requests
 from teamnotes.settings import COUCHDB_DATABASE_NAME, COUCHDB_SERVER_URL
 from scripts.notes import Note
+
+def create_sort_notes_by_date_index():
+    # Definir los datos del índice
+    index_data = {
+        "index": {
+            "fields": [
+                "creation_date"
+            ]
+        },
+        "name": "notes-sorted-by-creation-date",
+        "type": "json"
+    }
+    
+    index_json = json.dumps(index_data)
+
+    url = COUCHDB_SERVER_URL + '/' + COUCHDB_DATABASE_NAME + '/_index'
+
+    response = requests.post(url, data=index_json, headers={'Content-Type': 'application/json'})
+
+    print("Error al crear el índice:", response.status_code)
+    print(response.text)
 
 def convert_creation_date_to_date(note):
     if "creation_date" in note:
@@ -11,6 +35,7 @@ def convert_creation_date_to_date(note):
         #creation_date_dt = datetime.strptime(creation_date_str, '%Y-%m-%dT%H:%M:%S.%f%z')
         note["creation_date"] = creation_date_dt.date()
     return note
+
 
 def get_all_notes(page = 1, page_size = 16):
     
@@ -53,6 +78,7 @@ def create_database_if_not_exists(server, database_name):
         server[database_name].info()
     except ResourceNotFound:
         server.create(database_name)
+        create_sort_notes_by_date_index()
 
 def create_note(title, content, author):
     server = Server(COUCHDB_SERVER_URL)
