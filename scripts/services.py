@@ -12,7 +12,7 @@ def convert_creation_date_to_date(note):
         note["creation_date"] = creation_date_dt.date()
     return note
 
-def get_all_notes(page = 1, page_size = 20):
+def get_all_notes(page = 1, page_size = 16):
     
     # Calculate skip based on page and page_size
     skip = (page - 1) * page_size
@@ -20,11 +20,15 @@ def get_all_notes(page = 1, page_size = 20):
     server = Server(COUCHDB_SERVER_URL)
     create_database_if_not_exists(server, COUCHDB_DATABASE_NAME)
     db = server[COUCHDB_DATABASE_NAME]
+    
 
     mango_query = {
-        "selector": {},  # Add your specific selector criteria here
+        "selector": {
+            
+        },  # Add your specific selector criteria here
         "limit": page_size,
         "skip": skip,
+        "sort": [{"creation_date": "desc"}]
     }
     
     notes = list(db.find(mango_query))
