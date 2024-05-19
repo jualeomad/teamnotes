@@ -21,10 +21,10 @@ def create_note_view(request):
         content = request.POST.get('content')
         author = request.user.username
         
-        if title and content and author:
-            create_note(title, content, author)
-            return redirect('main:dashboard')
-        else:
-            return HttpResponseBadRequest("Invalid form data")
+        if not title.strip():
+            return render(request, 'create_note.html', {'error_message': "Title cannot be empty"})
+        
+        create_note(title, content, author)
+        return redirect('main:dashboard')
     
     return render(request, 'create_note.html')
