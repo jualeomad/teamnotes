@@ -34,3 +34,15 @@ class CustomUserLoginForm(AuthenticationForm):
             self.user_cache = user
 
         return self.cleaned_data
+
+class CustomUserChangeForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ('teams',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Obtén el valor actual del campo 'teams' y conviértelo de JSON a una cadena
+        if self.instance and self.instance.teams:
+            teams_str = ", ".join(self.instance.teams)
+            self.initial['teams'] = teams_str

@@ -79,26 +79,22 @@ def get_notes_for_user_teams(user_teams, page=1, page_size=16):
 
     skip = (page - 1) * page_size
 
+    mango_query = {
+        "selector": {
+            "team": {"$in": user_teams}
+        },
+        "limit": page_size,
+        "skip": skip,
+        "sort": [{"creation_date": "desc"}]
+    }
+
     notes = []
-    for team in user_teams:
-        mango_query = {
-            "selector": {
-                "team": team
-            },
-            "limit": page_size,
-            "skip": skip,
-        }
+    for doc in db.find(mango_query):
+        notes.append(doc)
 
-        team_notes = db.find(mango_query)
-        notes.extend(team_notes)
+    is_last_page = len(notes) < page_size
 
-    is_last_page = len(notes) != page_size
-    if not is_last_page:
-        mango_query["skip"] = page * page_size
-        if len(list(db.find(mango_query))) == 0:
-            is_last_page = True
-
-    return [convert_creation_date_to_date(note) for note in notes], len(notes) <= page_size
+    return [convert_creation_date_to_date(note) for note in notes], is_last_page
 
 def create_database_if_not_exists(server, database_name):
     try:

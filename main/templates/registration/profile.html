@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Profile</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+
+    <script>
+        // List to JSON
+        document.querySelector('form').addEventListener('submit', function(event) {
+            const teamsInput = document.querySelector('#id_teams');
+            let enteredValue = teamsInput.value;
+            enteredValue = enteredValue.replace(/^"(.*)"$/, '$1');
+            const teamsArray = enteredValue.split(',').map(team => team.trim());
+            teamsInput.value = JSON.stringify(teamsArray);
+        });
+    
+        // Remove surrounding double quotes when the document is loaded
+        document.addEventListener("DOMContentLoaded", function() {
+            const teamsInput = document.querySelector('#id_teams');
+            let enteredValue = teamsInput.value;
+            enteredValue = enteredValue.replace(/^"(.*)"$/, '$1');
+            teamsInput.value = enteredValue;
+        });
+    </script>
+</body>
+</html>
