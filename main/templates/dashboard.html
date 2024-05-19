@@ -12,10 +12,10 @@
 </head>
 <body>
 
-    
-
     <div class="container">
-        {% include 'paginator.html' %}
+        <div class="w-100 d-flex justify-content-end mb-3">
+            <a class="btn btn-outline-primary" href="{% url 'profile' %}">Profile</a>
+        </div>
         <div class="w-100 d-flex justify-content-center mb-3">
             <a class="btn btn-success" href="{% url 'main:create_note' %}">Create note</a>
         </div>
