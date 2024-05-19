@@ -25,10 +25,7 @@ def create_sort_notes_by_date_index():
 
     url = COUCHDB_SERVER_URL + '/' + COUCHDB_DATABASE_NAME + '/_index'
 
-    response = requests.post(url, data=index_json, headers={'Content-Type': 'application/json'})
-
-    print("Error al crear el índice:", response.status_code)
-    print(response.text)
+    requests.post(url, data=index_json, headers={'Content-Type': 'application/json'})
 
 
 def convert_creation_date_to_date(note):
@@ -64,8 +61,6 @@ def get_all_notes(page = 1, page_size = 16):
     }
     
     notes = list(db.find(mango_query))
-    
-    print(len(notes))
     
     is_last_page = len(notes) != page_size
     
