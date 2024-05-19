@@ -7,25 +7,27 @@ import requests
 from teamnotes.settings import COUCHDB_DATABASE_NAME, COUCHDB_SERVER_URL
 from scripts.notes import Note
 
-# Necesario para hacer el sort directamente en query de couchdb
-# y no ordenarlo con python posterior a la query
+
 def create_sort_notes_by_date_index():
     # Definir los datos del índice
     index_data = {
-    "index": {
-        "fields": [
-            "creation_date"
-        ]
-    },
-    "name": "notes-sorted-by-creation-date",
-    "type": "json"
+        "index": {
+            "fields": [
+                "creation_date"
+            ]
+        },
+        "name": "notes-sorted-by-creation-date",
+        "type": "json"
     }
     
     index_json = json.dumps(index_data)
 
     url = COUCHDB_SERVER_URL + '/' + COUCHDB_DATABASE_NAME + '/_index'
 
-    requests.post(url, data=index_json, headers={'Content-Type': 'application/json'})
+    response = requests.post(url, data=index_json, headers={'Content-Type': 'application/json'})
+
+    print("Error al crear el índice:", response.status_code)
+    print(response.text)
 
 
 def convert_creation_date_to_date(note):
@@ -41,6 +43,7 @@ def convert_creation_date_to_date(note):
                 return note
         note["creation_date"] = creation_date_dt.date()
     return note
+
 
 def get_all_notes(page = 1, page_size = 16):
     # Calculate skip based on page and page_size
@@ -101,6 +104,7 @@ def create_database_if_not_exists(server, database_name):
         server[database_name].info()
     except ResourceNotFound:
         server.create(database_name)
+        create_sort_notes_by_date_index()
 
 def create_note(title, content, author, team):
     server = Server(COUCHDB_SERVER_URL)
