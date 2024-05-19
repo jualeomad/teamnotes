@@ -19,7 +19,7 @@ def create_note_view(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         content = request.POST.get('content')
-        author = request.POST.get('author')
+        author = request.user.username
         
         if title and content and author:
             create_note(title, content, author)
