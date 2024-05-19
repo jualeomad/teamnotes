@@ -71,6 +71,34 @@ def get_all_notes(page = 1, page_size = 16):
     
     return [convert_creation_date_to_date(note) for note in notes], is_last_page
 
+def get_notes_for_user_teams(user_teams, page=1, page_size=16):
+    server = Server(COUCHDB_SERVER_URL)
+    create_database_if_not_exists(server, COUCHDB_DATABASE_NAME)
+    create_sort_notes_by_date_index()
+    db = server[COUCHDB_DATABASE_NAME]
+
+    skip = (page - 1) * page_size
+
+    notes = []
+    for team in user_teams:
+        mango_query = {
+            "selector": {
+                "team": team
+            },
+            "limit": page_size,
+            "skip": skip,
+        }
+
+        team_notes = db.find(mango_query)
+        notes.extend(team_notes)
+
+    is_last_page = len(notes) != page_size
+    if not is_last_page:
+        mango_query["skip"] = page * page_size
+        if len(list(db.find(mango_query))) == 0:
+            is_last_page = True
+
+    return [convert_creation_date_to_date(note) for note in notes], len(notes) <= page_size
 
 def create_database_if_not_exists(server, database_name):
     try:
@@ -78,10 +106,10 @@ def create_database_if_not_exists(server, database_name):
     except ResourceNotFound:
         server.create(database_name)
 
-def create_note(title, content, author):
+def create_note(title, content, author, team):
     server = Server(COUCHDB_SERVER_URL)
     create_database_if_not_exists(server, COUCHDB_DATABASE_NAME)
     db = server[COUCHDB_DATABASE_NAME]
 
-    new_note = Note(title=title, content=content, author=author)
+    new_note = Note(title=title, content=content, author=author, team=team)
     new_note.store(db)

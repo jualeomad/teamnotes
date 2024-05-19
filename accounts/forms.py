@@ -4,9 +4,15 @@ from django.contrib.auth import authenticate
 from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
+    teams = forms.CharField(max_length=250)
+
     class Meta:
         model = CustomUser
-        fields = ('email', 'username', 'team')
+        fields = ('email', 'username', 'teams')
+
+    def clean_teams(self):
+        teams = self.cleaned_data.get('teams')
+        return [team.strip() for team in teams.split(',')]
 
 class CustomUserLoginForm(AuthenticationForm):
     username = forms.CharField(max_length=30, label="Username or Email")
