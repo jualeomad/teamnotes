@@ -2,7 +2,6 @@ from couchdb.client import Server
 import json
 import sys
 import os
-import requests
 
 # Add the parent directory of 'teamnotes' to the Python path
 current_dir = os.path.dirname(__file__)
