@@ -19,7 +19,7 @@ if __name__=='__main__':
 
     create_sort_notes_by_date_index()
 
-    populate_file = 'MOCK_DATA.json'
+    populate_file = 'MOCK_DATA_2.json'
 
     print(db.index()._list())
 
@@ -30,5 +30,5 @@ if __name__=='__main__':
         json_data = json.load(file)
         for note in json_data:
             new_note = convert_creation_date_to_date(note)
-            new_note = Note(title=note["title"], content=note["content"], creation_date=note["creation_date"], author=note["author"])
+            new_note = Note(title=note["title"], content=note["content"], creation_date=note["creation_date"], author=note["author"], team=note["team"])
             new_note.store(db)
