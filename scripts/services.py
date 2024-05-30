@@ -88,11 +88,11 @@ def get_notes_for_user_teams(user_teams, page=1, page_size=16, query='', filter_
 
     if query:
         if filter_by == 'title':
-            selector["title"] = {"$regex": query}
+            selector["title"] = {"$regex": '(?i)' + query}
         elif filter_by == 'author':
-            selector["author"] = {"$regex": query}
+            selector["author"] = {"$regex":'(?i)' + query}
         elif filter_by == 'content':
-            selector["content"] = {"$regex": query}
+            selector["content"] = {"$regex":'(?i)' + query}
 
     mango_query = {
         "selector": selector,
