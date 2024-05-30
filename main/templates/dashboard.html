@@ -11,15 +11,6 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 </head>
 <body>
-    <h2>User Profile</h2>
-  {% if user.is_authenticated %}
-    <p>Username: {{ user.username }}</p>
-    <p>Email: {{ user.email }}</p>
-    <p>First name: {{ user.first_name }}</p>
-    <p>Last name: {{ user.last_name }}</p>
-  {% else %}
-    <p>You are not logged in.</p>
-  {% endif %}
 
     <div class="container">
         <div class="w-100 d-flex justify-content-end mb-3">
@@ -36,6 +27,9 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ note.title }}</h5>
                             <p class="card-text">{{ note.content }}</p>
+                        </div>
+                        <div class="card-footer">
+                          Team: {{ note.team }}
                         </div>
                     </div>
                 </div>
