@@ -74,7 +74,7 @@ def get_all_notes(page = 1, page_size = 16):
     
     return [convert_creation_date_to_date(note) for note in notes], is_last_page
 
-def get_notes_for_user_teams(user_teams, page=1, page_size=16):
+def get_notes_for_user_teams(user_teams, page=1, page_size=16, query='', filter_by='title'):
     server = Server(COUCHDB_SERVER_URL)
     create_database_if_not_exists(server, COUCHDB_DATABASE_NAME)
     create_sort_notes_by_date_index()
@@ -82,10 +82,20 @@ def get_notes_for_user_teams(user_teams, page=1, page_size=16):
 
     skip = (page - 1) * page_size
 
+    selector = {
+        "team": {"$in": user_teams}
+    }
+
+    if query:
+        if filter_by == 'title':
+            selector["title"] = {"$regex": query}
+        elif filter_by == 'author':
+            selector["author"] = {"$regex": query}
+        elif filter_by == 'content':
+            selector["content"] = {"$regex": query}
+
     mango_query = {
-        "selector": {
-            "team": {"$in": user_teams}
-        },
+        "selector": selector,
         "limit": page_size,
         "skip": skip,
         "sort": [{"creation_date": "desc"}]
