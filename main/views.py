@@ -4,15 +4,23 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def dashboard(request):
-    
     user = request.user
-
     page = int(request.GET.get('page', 1))
     user_teams = request.user.teams
-    all_notes, is_last_page = get_notes_for_user_teams(user_teams, page=page)
+    query = request.GET.get('query', '')
+    filter_by = request.GET.get('filter_by', 'title')
+
+    all_notes, is_last_page = get_notes_for_user_teams(user_teams, page=page, query=query, filter_by=filter_by)
     is_first_page = page == 1
     
-    return render(request, 'dashboard.html', {"all_notes": all_notes, "is_first_page": is_first_page, "is_last_page": is_last_page, "current_page": page, "user": user})
+    return render(request, 'dashboard.html', {
+        "all_notes": all_notes, 
+        "is_first_page": is_first_page, 
+        "is_last_page": is_last_page, 
+        "current_page": page, 
+        "user": user, 
+        "query": query, 
+        "filter_by": filter_by,})
 
 
 @login_required

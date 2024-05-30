@@ -19,6 +19,21 @@
         <div class="w-100 d-flex justify-content-center mb-3">
             <a class="btn btn-success" href="{% url 'main:create_note' %}">Create note</a>
         </div>
+        <div class="w-100 d-flex justify-content-center mb-3">
+            <form method="GET" action="{% url 'main:dashboard' %}" class="form-inline d-flex">
+                <div class="form-group mr-2">
+                    <input type="text" name="query" class="form-control" placeholder="Search">
+                </div>
+                <div class="form-group mr-2">
+                    <select name="filter_by" class="form-control">
+                        <option value="title">Title</option>
+                        <option value="author">Author</option>
+                        <option value="content">Content</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
         <div class="row flex-row">
             {% for note in all_notes %}
                 <div class="col-xs-12 col-sm-6 col-md-4 mb-3 col-lg-3">
@@ -37,8 +52,6 @@
         </div>
         {% include 'paginator.html' %}
     </div>
-
-
 
   {% block content %}
   {% endblock %}
