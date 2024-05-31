@@ -28,9 +28,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!r0s%t*&tj48qo!)lzx)y!7_m69xh_837hl6b6ct#-n=r6c_-4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [] if DEBUG else ['*']
+if not DEBUG:
+    CSRF_TRUSTED_ORIGINS = ['https://*.*', 'http://*.*', 'https://*.com']
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 LOGIN_REDIRECT_URL = '/notes/dashboard'
@@ -93,6 +95,8 @@ DATABASES = {
 
 COUCHDB_DATABASE_NAME = 'teamnotesdb'
 COUCHDB_SERVER_URL = 'http://' + os.getenv('COUCHDB_USER') + ':' + os.getenv('COUCHDB_PASSWORD') + '@localhost:5984'
+if not DEBUG:
+    COUCHDB_SERVER_URL = os.getenv('COUCHDB_REMOTE_SERVER')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
