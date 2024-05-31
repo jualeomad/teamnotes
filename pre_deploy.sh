@@ -20,7 +20,9 @@ GUNICORN_CONF="$DJANGO_PROJECT_DIR/gunicorn_conf.py"  # Archivo de configuració
 
 # Realizar migraciones
 echo "Realizando migraciones..."
-python $DJANGO_MANAGE_PY makemigrations
+find . -name "migrations" -type d -prune -exec rm -rf {} \;
+
+python $DJANGO_MANAGE_PY makemigrations accounts main
 python $DJANGO_MANAGE_PY migrate
 
 # Recopilar archivos estáticos
