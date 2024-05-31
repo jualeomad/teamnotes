@@ -6,5 +6,5 @@ settings.configure()
 
 from django.contrib.auth.hashers import make_password
 
-hashed_password = make_password('test_barca')
+hashed_password = make_password('testbetis')
 print(hashed_password)

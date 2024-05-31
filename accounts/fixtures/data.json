@@ -3,8 +3,8 @@
         "model": "accounts.CustomUser",
         "pk": 1,
         "fields": {
-            "username": "test_betis",
-            "password": "pbkdf2_sha256$600000$62fI5ANHKTc4mLUwTK20nU$l7Qqu0m4FgxJNkukjB8PRDgtynGlySZj2lCE+JvJnuQ=",
+            "username": "testbetis",
+            "password": "pbkdf2_sha256$600000$oVVO50pv5gnn9U3pJnS8jN$C/grwLUK2dl18h5yuFPs89uzqi8njkRl7qUtGK2XpcE=",
             "email": "test_betis@test.com",
             "teams": "Betis"
         }
