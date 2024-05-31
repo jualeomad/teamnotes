@@ -52,11 +52,11 @@ def create_sort_notes_by_date_index():
     index_json = json.dumps(index_data)
 
     url = COUCHDB_SERVER_URL + '/' + COUCHDB_DATABASE_NAME + '/_index'
-
-    response = requests.post(url, data=index_json, headers={'Content-Type': 'application/json'})
-
-    print("Error al crear el índice:", response.status_code)
-    print(response.text)
+    try:
+        response = requests.post(url, data=index_json, headers={'Content-Type': 'application/json'})
+    except:
+        print("Error al crear el índice:", response.status_code)
+        print(response.text)
 
 
 def convert_creation_date_to_date(note):
