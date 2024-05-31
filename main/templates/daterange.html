@@ -1,0 +1,59 @@
+<input type="text" name="daterange" />
+
+<script type="text/javascript">
+
+    const DATE_FORMAT = 'DD/MM/YYYY'
+
+    const daterangeFromView = "{{ daterange }}"
+
+    const daterangeInput = $('input[name="daterange"]')
+
+    daterangeConfig = {
+            "locale": {
+                "format": DATE_FORMAT
+            },
+            "ranges": {
+                "Last 7 Days": [
+                moment().subtract(6, 'days').format(DATE_FORMAT),
+                moment().format(DATE_FORMAT)
+                ],
+                "Last 30 Days": [
+                moment().subtract(29, 'days').format(DATE_FORMAT),
+                moment().format(DATE_FORMAT)
+                ],
+                "This Month": [
+                moment().startOf('month').format(DATE_FORMAT),
+                moment().endOf('month').format(DATE_FORMAT)
+                ],
+                "Last Month": [
+                    moment().subtract(1, 'months').startOf('month').format(DATE_FORMAT),
+                    moment().subtract(1, 'months').endOf('month').format(DATE_FORMAT)
+                    ]
+                }
+    }
+
+
+    if (daterangeFromView !== 'None') {
+        daterangeConfig = {
+                    "startDate": daterangeFromView.split(' - ')[0],
+                    "endDate": daterangeFromView.split(' - ')[1],
+                    ...daterangeConfig
+        }
+    }
+    else {
+        daterangeConfig = {
+            "startDate": moment().subtract(364, 'days').format(DATE_FORMAT),
+            "endDate": moment().format(DATE_FORMAT),
+            ...daterangeConfig
+        }
+    }
+        
+
+    $(function() {
+        daterangeInput.daterangepicker(daterangeConfig,
+        
+        function(start, end, label) {
+            console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+        });
+    });
+</script>

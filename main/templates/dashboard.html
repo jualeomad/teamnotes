@@ -4,11 +4,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}{% endblock %}</title>
-  {% load bootstrap5 %}
-  {% bootstrap_css %}
-  {% bootstrap_javascript %}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 </head>
 <body>
 
@@ -21,6 +25,9 @@
         </div>
         <div class="w-100 d-flex justify-content-center mb-3">
             <form method="GET" action="{% url 'main:dashboard' %}" class="form-inline d-flex">
+
+                {% include 'daterange.html' %}
+
                 <div class="form-group mr-2">
                     <input type="text" name="query" class="form-control" placeholder="Search">
                 </div>

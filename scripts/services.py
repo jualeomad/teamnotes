@@ -1,12 +1,29 @@
 import json
 from couchdb.client import Server
 from couchdb.http import ResourceNotFound
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import requests
 from teamnotes.settings import COUCHDB_DATABASE_NAME, COUCHDB_SERVER_URL
 from scripts.notes import Note
 
+def last_year_range():
+    today = datetime.today()
+
+    one_year_ago = today - timedelta(days=365)
+
+    today_str = today.strftime('%d/%m/%Y')
+    one_year_ago_str = one_year_ago.strftime('%d/%m/%Y')
+    
+    return one_year_ago_str + ' - ' + today_str
+
+def str_date_to_iso(str_date):
+    try:
+        date_obj = datetime.strptime(str_date, '%d/%m/%Y')
+    except:
+        date_obj = datetime.today()
+
+    return date_obj.isoformat()
 
 def create_sort_notes_by_date_index():
     # Definir los datos del índice
@@ -74,25 +91,35 @@ def get_all_notes(page = 1, page_size = 16):
     
     return [convert_creation_date_to_date(note) for note in notes], is_last_page
 
-def get_notes_for_user_teams(user_teams, page=1, page_size=16, query='', filter_by='title'):
+def get_notes_for_user_teams(user_teams, page=1, page_size=16, query='', filter_by='title', daterange=None):
     server = Server(COUCHDB_SERVER_URL)
     create_database_if_not_exists(server, COUCHDB_DATABASE_NAME)
     create_sort_notes_by_date_index()
     db = server[COUCHDB_DATABASE_NAME]
+    
+    if daterange is None:
+        daterange = last_year_range()
+    daterange = daterange.split(' - ')
+    if len(daterange) != 2:
+        daterange = [None, None]
 
     skip = (page - 1) * page_size
 
     selector = {
-        "team": {"$in": user_teams}
+        "team": {"$in": user_teams},
+        "creation_date": {
+            "$gte": str_date_to_iso(daterange[0]),
+            "$lte": str_date_to_iso(daterange[1])
+        }
     }
 
     if query:
         if filter_by == 'title':
-            selector["title"] = {"$regex": query}
+            selector["title"] = {"$regex": '(?i)' + query}
         elif filter_by == 'author':
-            selector["author"] = {"$regex": query}
+            selector["author"] = {"$regex": '(?i)' + query}
         elif filter_by == 'content':
-            selector["content"] = {"$regex": query}
+            selector["content"] = {"$regex": '(?i)' + query}
 
     mango_query = {
         "selector": selector,
