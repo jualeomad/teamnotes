@@ -2,6 +2,8 @@
 
 # Script para inicializar un proyecto Django antes del despliegue
 
+pip install -r requirements.txt
+
 # Definir variables
 DJANGO_PROJECT_DIR="."  # Cambia esto por la ruta de tu proyecto Django
 DJANGO_MANAGE_PY="$DJANGO_PROJECT_DIR/manage.py"
