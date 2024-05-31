@@ -2,6 +2,9 @@
 
 # Script para inicializar un proyecto Django antes del despliegue
 
+python -m venv env
+env/bin/activate
+
 pip install -r requirements.txt
 
 # Definir variables
