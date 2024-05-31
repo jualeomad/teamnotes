@@ -22,6 +22,10 @@ GUNICORN_CONF="$DJANGO_PROJECT_DIR/gunicorn_conf.py"  # Archivo de configuració
 echo "Realizando migraciones..."
 python $DJANGO_MANAGE_PY makemigrations accounts main
 python $DJANGO_MANAGE_PY migrate
+python $DJANGO_MANAGE_PY loaddata .\accounts\fixtures\data.json
+
+echo "Populando notas ..."
+python ./scripts/populate.py
 
 # Recopilar archivos estáticos
 echo "Recopilando archivos estáticos..."

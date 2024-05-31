@@ -1,0 +1,32 @@
+[
+    {
+        "model": "accounts.CustomUser",
+        "pk": 1,
+        "fields": {
+            "username": "test_betis",
+            "password": "pbkdf2_sha256$600000$62fI5ANHKTc4mLUwTK20nU$l7Qqu0m4FgxJNkukjB8PRDgtynGlySZj2lCE+JvJnuQ=",
+            "email": "test_betis@test.com",
+            "teams": "Betis"
+        }
+    },
+    {
+        "model": "accounts.CustomUser",
+        "pk": 2,
+        "fields": {
+            "username": "test_sevilla",
+            "password": "pbkdf2_sha256$600000$SfCfg8mbvWuFvEZUxcGwAE$aihyrKVVoEHWm83ZxZaiZdY4EyjEyhwgVZ40CbvIEY8=",
+            "email": "test_sevilla@test.com",
+            "teams": "Sevilla"
+        }
+    },
+    {
+        "model": "accounts.CustomUser",
+        "pk": 3,
+        "fields": {
+            "username": "test_barca",
+            "password": "pbkdf2_sha256$600000$bH0AdNh1oWk3pDkgGVVk6c$6UGg6M0OrvlaSerVMEf0G3wfQToJqxe2isN6Yffk1Tc=",
+            "email": "test_barca@test.com",
+            "teams": "Barca"
+        }
+    }
+]
