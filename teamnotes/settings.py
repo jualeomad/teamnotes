@@ -31,9 +31,9 @@ SECRET_KEY = 'django-insecure-!r0s%t*&tj48qo!)lzx)y!7_m69xh_837hl6b6ct#-n=r6c_-4
 DEBUG = True
 
 ALLOWED_HOSTS = ['*'] if DEBUG else ['teamnotes.onrender.com']
-ALLOWED_HOSTS = ['https://teamnotes.onrender.com']
+ALLOWED_HOSTS = ['teamnotes.onrender.com']
 #if not DEBUG:
-CSRF_TRUSTED_ORIGINS = ['teamnotes.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://teamnotes.onrender.com']
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 LOGIN_REDIRECT_URL = '/notes/dashboard'
