@@ -8,13 +8,16 @@ current_dir = os.path.dirname(__file__)
 parent_dir = os.path.abspath(os.path.join(current_dir, '..'))
 sys.path.append(parent_dir)
 
-from scripts.services import convert_creation_date_to_date, create_sort_notes_by_date_index
+from scripts.services import convert_creation_date_to_date, create_database_if_not_exists, create_sort_notes_by_date_index
 from scripts.notes import Note
 from teamnotes.settings import COUCHDB_DATABASE_NAME, COUCHDB_SERVER_URL
 
 if __name__=='__main__':
 
     server = Server(COUCHDB_SERVER_URL)
+    
+    create_database_if_not_exists(server, COUCHDB_DATABASE_NAME)
+    
     db = server[COUCHDB_DATABASE_NAME]
 
     create_sort_notes_by_date_index()
