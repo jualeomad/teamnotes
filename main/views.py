@@ -9,8 +9,10 @@ def dashboard(request):
     user_teams = request.user.teams
     query = request.GET.get('query', '')
     filter_by = request.GET.get('filter_by', 'title')
+    
+    daterange = request.GET.get('daterange')
 
-    all_notes, is_last_page = get_notes_for_user_teams(user_teams, page=page, query=query, filter_by=filter_by)
+    all_notes, is_last_page = get_notes_for_user_teams(user_teams, page=page, query=query, filter_by=filter_by, daterange=daterange)
     is_first_page = page == 1
     
     return render(request, 'dashboard.html', {
@@ -20,7 +22,8 @@ def dashboard(request):
         "current_page": page, 
         "user": user, 
         "query": query, 
-        "filter_by": filter_by,})
+        "filter_by": filter_by,
+        "daterange": daterange})
 
 
 @login_required
