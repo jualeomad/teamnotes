@@ -22,8 +22,4 @@ python $DJANGO_MANAGE_PY migrate
 echo "Recopilando archivos estáticos..."
 python $DJANGO_MANAGE_PY collectstatic --noinput
 
-# Iniciar Gunicorn
-echo "Iniciando Gunicorn..."
-gunicorn --config $GUNICORN_CONF teamnotes.wsgi:application
-
-echo "¡Despliegue completado!"
+echo "Pre-despliegue completado!!"
