@@ -1,6 +1,10 @@
-from django.shortcuts import render, redirect
+from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404, render, redirect
+from scripts.notes import Note
 from scripts.services import create_note, get_notes_for_user_teams
 from django.contrib.auth.decorators import login_required
+from couchdb.client import Server
+from teamnotes.settings import COUCHDB_DATABASE_NAME, COUCHDB_SERVER_URL
 
 @login_required
 def dashboard(request):
@@ -44,3 +48,37 @@ def create_note_view(request):
         return redirect('main:dashboard')
     
     return render(request, 'create_note.html')
+
+
+@login_required
+def edit_note(request, note_id):
+    server = Server(COUCHDB_SERVER_URL)
+    db = server[COUCHDB_DATABASE_NAME]
+    note = db.get(note_id)
+
+    if not note or note['team'] not in request.user.teams:
+        return HttpResponseForbidden()
+
+    if request.method == 'POST':
+        note['title'] = request.POST.get('title', note['title'])
+        note['content'] = request.POST.get('content', note['content'])
+        note['team'] = request.POST.get('team', note['team'])
+        db.save(note)
+        return redirect('main:dashboard')
+
+    return render(request, 'edit_note.html', {'note': note})
+
+@login_required
+def delete_note(request, note_id):
+    if request.method == 'POST':
+        server = Server(COUCHDB_SERVER_URL)
+        db = server[COUCHDB_DATABASE_NAME]
+        note = db.get(note_id)
+
+        if not note or note['team'] not in request.user.teams:
+            return HttpResponseForbidden()
+
+        if note:
+            db.delete(note)
+
+    return redirect('main:dashboard')

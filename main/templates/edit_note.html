@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Note</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <style>
+    .custom-container {
+      max-width: 600px;
+      width: 80%;
+      margin: 0 auto;
+    }
+    .error-message {
+        color: red;
+    }
+  </style>
+</head>
+<body>
+    <div class="container custom-container">
+    <h1 class="mt-5 mb-4">Edit Note</h1>
+    {% if error_message %}
+        <div class="error-message">{{ error_message }}</div>
+    {% endif %}
+    <form class="custom-form" method="post">
+        {% csrf_token %}
+        <div class="form-group mb-2">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" name="title" value="{{ note.title }}">
+            {% if form.errors.title %}
+                <div class="error-message">{{ form.errors.title }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group mb-2">
+            <label for="content">Content</label>
+            <textarea class="form-control" rows="3" name="content">{{ note.content }}</textarea>
+        </div>
+        <div class="form-group mb-2">
+            <label for="team">Team</label>
+            <input type="text" class="form-control" name="team" value="{{ note.team }}">
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Save</button>
+    </form>
+</div>
+</body>
+</html>
