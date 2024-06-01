@@ -17,6 +17,12 @@
     <div class="logo-container">
         <img src="{% static 'images/logo.png' %}" alt="TeamNotes Logo" class="logo">
     </div>
+    <div class="container">
+        <div class="w-100 d-flex justify-content-end mb-3">
+            <a class="btn btn-primary me-2" href="{% url 'profile' %}">Profile</a>
+            <a class="btn btn-danger" href="{% url 'logout' %}">Logout</a>
+        </div>
+    </div>
     <div class="container custom-container">
         <h1 class="mt-5 mb-4">Edit Profile</h1>
         <div class="loading-overlay" id="loadingOverlay">
@@ -27,7 +33,10 @@
         <form id="profileForm" method="post">
             {% csrf_token %}
             {% bootstrap_form form %}
-            <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                <a href="{% url 'main:dashboard' %}" class="btn btn-secondary mt-3">Cancel</a>
+            </div>
         </form>
     </div>
 
