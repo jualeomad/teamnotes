@@ -30,6 +30,10 @@ body {
     margin: 0 auto;
 }
 
+.error-message {
+    color: red;
+}
+
 .logo-container {
     position: absolute;
     top: 0;
