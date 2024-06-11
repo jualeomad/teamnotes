@@ -1,38 +1,30 @@
+
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.ico' %}">
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
-    <style>
-        /* Estilos para el mensaje de carga */
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            z-index: 9999;
-            backdrop-filter: blur(5px);
-        }
-
-        .loading-spinner {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 24px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 </head>
 <body>
+    <div class="logo-container">
+        <img src="{% static 'images/logo.png' %}" alt="TeamNotes Logo" class="logo">
+    </div>
     <div class="container">
-        <h1>Edit Profile</h1>
+        <div class="w-100 d-flex justify-content-end mb-3">
+            <a class="btn btn-primary me-2" href="{% url 'profile' %}">Profile</a>
+            <a class="btn btn-danger" href="{% url 'logout' %}">Logout</a>
+        </div>
+    </div>
+    <div class="container custom-container">
+        <h1 class="mt-5 mb-4">Edit Profile</h1>
         <div class="loading-overlay" id="loadingOverlay">
             <div class="loading-spinner">
                 <i class="fas fa-spinner fa-spin"></i> Saving...
@@ -40,13 +32,15 @@
         </div>
         <form id="profileForm" method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Save Changes</button>
+            {% bootstrap_form form %}
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                <a href="{% url 'main:dashboard' %}" class="btn btn-secondary mt-3">Cancel</a>
+            </div>
         </form>
     </div>
 
     <script>
-        // List to JSON
         document.getElementById('profileForm').addEventListener('submit', function(event) {
             const teamsInput = document.querySelector('#id_teams');
             let enteredValue = teamsInput.value;
@@ -54,11 +48,9 @@
             const teamsArray = enteredValue.split(',').map(team => team.trim());
             teamsInput.value = JSON.stringify(teamsArray);
 
-            // Mostrar mensaje de carga
             document.getElementById('loadingOverlay').style.display = 'block';
         });
 
-        // Remove surrounding double quotes when the document is loaded
         document.addEventListener("DOMContentLoaded", function() {
             const teamsInput = document.querySelector('#id_teams');
             let enteredValue = teamsInput.value;
