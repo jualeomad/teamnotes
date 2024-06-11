@@ -14,17 +14,17 @@
             },
             "ranges": {
                 "Last 7 Days": [
-                moment().subtract(6, 'days').format(DATE_FORMAT),
-                moment().format(DATE_FORMAT)
+                    moment().subtract(6, 'days').format(DATE_FORMAT),
+                    moment().format(DATE_FORMAT)
                 ],
                 "Last 30 Days": [
-                moment().subtract(29, 'days').format(DATE_FORMAT),
-                moment().format(DATE_FORMAT)
+                    moment().subtract(29, 'days').format(DATE_FORMAT),
+                    moment().format(DATE_FORMAT)
                 ],
                 "This Month": [
-                moment().startOf('month').format(DATE_FORMAT),
-                moment().endOf('month').format(DATE_FORMAT)
-                ],
+                    moment().startOf('month').format(DATE_FORMAT),
+                    moment().endOf('month').format(DATE_FORMAT)
+                    ],
                 "Last Month": [
                     moment().subtract(1, 'months').startOf('month').format(DATE_FORMAT),
                     moment().subtract(1, 'months').endOf('month').format(DATE_FORMAT)
@@ -32,8 +32,10 @@
                 }
     }
 
+    
+    const existingDateRange = daterangeFromView !== 'None'
 
-    if (daterangeFromView !== 'None') {
+    if (existingDateRange) {
         daterangeConfig = {
                     "startDate": daterangeFromView.split(' - ')[0],
                     "endDate": daterangeFromView.split(' - ')[1],
@@ -41,11 +43,12 @@
         }
     }
     else {
-        daterangeConfig = {
+        /*daterangeConfig = {
             "startDate": moment().subtract(364, 'days').format(DATE_FORMAT),
             "endDate": moment().format(DATE_FORMAT),
             ...daterangeConfig
-        }
+        }*/
+        console.log("test")
     }
         
 
@@ -55,5 +58,10 @@
         function(start, end, label) {
             console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
         });
+
+        // Por defecto campo de daterange vacio
+        if (!existingDateRange)
+            daterangeInput.val('')
     });
+        
 </script>
