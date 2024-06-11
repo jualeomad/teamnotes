@@ -17,6 +17,18 @@ def last_year_range():
     
     return one_year_ago_str + ' - ' + today_str
 
+def str_date_to_day_last_moment_iso(str_date):
+    try:
+        date_obj = datetime.strptime(str_date, '%d/%m/%Y')
+    except:
+        date_obj = datetime.today()
+    
+    momento_anterior = datetime(date_obj.year, date_obj.month, date_obj.day, 23, 59, 59)
+
+    date_iso = momento_anterior.isoformat()
+    
+    return date_iso
+
 def str_date_to_iso(str_date):
     try:
         date_obj = datetime.strptime(str_date, '%d/%m/%Y')
@@ -40,8 +52,13 @@ def create_sort_notes_by_date_index():
     index_json = json.dumps(index_data)
 
     url = COUCHDB_SERVER_URL + '/' + COUCHDB_DATABASE_NAME + '/_index'
-
-    requests.post(url, data=index_json, headers={'Content-Type': 'application/json'})
+    try:
+        response = requests.post(url, data=index_json, headers={'Content-Type': 'application/json'})
+        response.raise_for_status()  # Esto lanzará una excepción si hay un error en la solicitud
+    except requests.exceptions.RequestException as e:
+        print("Error al realizar la solicitud:", e)
+    else:
+        print("Índice creado con éxito")
 
 
 def convert_creation_date_to_date(note):
@@ -106,7 +123,7 @@ def get_notes_for_user_teams(user_teams, page=1, page_size=16, query='', filter_
         "team": {"$in": user_teams},
         "creation_date": {
             "$gte": str_date_to_iso(daterange[0]),
-            "$lte": str_date_to_iso(daterange[1])
+            "$lte": str_date_to_day_last_moment_iso(daterange[1])
         }
     }
 
