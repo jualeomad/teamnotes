@@ -61,7 +61,7 @@
                             </div>
                             {% if note.team in user.teams %}
                                 <div>
-                                    <a href="{% url 'main:edit_note' note.id %}" class="btn btn-sm btn-light">
+                                    <a href="{% url 'main:edit_note' note.id %}?{{ raw_query_params }}" class="btn btn-sm btn-light">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
                                     <button class="btn btn-sm btn-danger" onclick="confirmDelete('{{ note.id }}')">
@@ -100,7 +100,7 @@
 <script>
     function confirmDelete(noteId) {
         var form = document.getElementById('deleteNoteForm');
-        form.action = '{% url "main:delete_note" "NOTE_ID" %}'.replace('NOTE_ID', noteId);
+        form.action = '{% url "main:delete_note" "NOTE_ID" %}?{{ raw_query_params }}'.replace('NOTE_ID', noteId);
         $('#confirmDeleteModal').modal('show');
     }
 </script>
