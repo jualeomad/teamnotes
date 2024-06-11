@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!r0s%t*&tj48qo!)lzx)y!7_m69xh_837hl6b6ct#-n=r6c_-4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*'] if DEBUG else ['teamnotes.onrender.com']
 if not DEBUG:
