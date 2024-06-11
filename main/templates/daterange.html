@@ -1,4 +1,4 @@
-<input type="text" name="daterange" />
+<input type="text" name="daterange" class="form-control daterange-input" placeholder="Date range" />
 
 <script type="text/javascript">
 
@@ -59,9 +59,8 @@
             console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
         });
 
-        // Por defecto campo de daterange vacio
         if (!existingDateRange)
-            daterangeInput.val('')
+            daterangeInput.val(' Select date range')
     });
         
 </script>

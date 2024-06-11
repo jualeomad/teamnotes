@@ -65,6 +65,10 @@ body {
     font-size: 24px;
 }
 
+.daterange-input {
+    width: 205px;
+}
+
 .note-has-grid .nav-link {
     padding: .5rem
 }
