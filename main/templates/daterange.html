@@ -4,7 +4,10 @@
 
     const DATE_FORMAT = 'DD/MM/YYYY'
 
-    const daterangeFromView = "{{ daterange }}"
+    let daterangeFromView = "{{ daterange }}"
+    if (daterangeFromView === " Select date range") {
+        daterangeFromView = "None"
+    }
 
     const daterangeInput = $('input[name="daterange"]')
 
