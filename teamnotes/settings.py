@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!r0s%t*&tj48qo!)lzx)y!7_m69xh_837hl6b6ct#-n=r6c_-4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*'] if DEBUG else ['*.onrender.com']
 if not DEBUG:
@@ -93,8 +93,8 @@ DATABASES = {
 
 COUCHDB_DATABASE_NAME = 'teamnotesdb'
 COUCHDB_SERVER_URL = 'http://' + os.getenv('COUCHDB_USER') + ':' + os.getenv('COUCHDB_PASSWORD') + '@localhost:5984'
-if not DEBUG:
-    COUCHDB_SERVER_URL = os.getenv('COUCHDB_REMOTE_SERVER')
+# if not DEBUG:
+COUCHDB_SERVER_URL = os.getenv('COUCHDB_REMOTE_SERVER')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
