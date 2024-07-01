@@ -111,7 +111,7 @@ def get_notes_for_user_teams(user_teams, page=1, page_size=16, query='', filter_
     create_sort_notes_by_date_index()
     db = server[COUCHDB_DATABASE_NAME]
     
-    if daterange is None:
+    if daterange is None or daterange == " Select date range":
         daterange = last_year_range()
     daterange = daterange.split(' - ')
     if len(daterange) != 2:
